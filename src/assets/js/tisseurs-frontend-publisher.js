@@ -9,7 +9,6 @@
     let isSubmitting = false;
 
     const MAX_SIZE = 5_242_880; // 5 MiB
-    const MAX_SIZE_STRING = '5 MiB';
 
     $(document).ready(function() {
         initializePublisher();

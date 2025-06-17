@@ -2,11 +2,13 @@
 
 /**
  * Plugin Name: Tisseurs Frontend Publisher
- * Description: WordPress plugin to enable blogpost posting from page with a short code in Tisseurs de Chimeres association
+ * Description: WordPress plugin enables blogpost posting from page with a short code. It is tested in Tisseurs de Chimères association
  * Version: 0.1.0
  * Author: Bertrand Madet
  * Licence: GPLv3 or later
  * Licence URI: https://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain: tisseurs-frontend-publisher
+ * Domain Path: /languages
  */
 
 
@@ -15,7 +17,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class FrontendArticlePublisher {
+class TisseursFrontendPublisher {
     
     public function __construct() {
         add_action('init', array($this, 'init'));
@@ -27,22 +29,22 @@ class FrontendArticlePublisher {
     
     public function init() {
         // Charger les traductions si nécessaire
-        load_plugin_textdomain('frontend-publisher', false, dirname(plugin_basename(__FILE__)) . '/languages');
+        load_plugin_textdomain('tisseurs-frontend-publisher', false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
     
     public function enqueue_scripts() {
         wp_enqueue_script('jquery');
-        wp_enqueue_script('frontend-publisher-js', plugin_dir_url(__FILE__) . 'assets/js/frontend-publisher.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('frontend-publisher-css', plugin_dir_url(__FILE__) . 'assets/css/frontend-publisher.css', array(), '1.0.0');
+        wp_enqueue_script('tisseurs-frontend-publisher-js', plugin_dir_url(__FILE__) . 'assets/js/tisseurs-frontend-publisher.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('tisseurs-frontend-publisher-css', plugin_dir_url(__FILE__) . 'assets/css/tisseurs-frontend-publisher.css', array(), '1.0.0');
         
         // JavaScript Variables for AJAX
-        wp_localize_script('frontend-publisher-js', 'frontendPublisher', array(
+        wp_localize_script('tisseurs-frontend-publisher-js', 'frontendPublisher', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('frontend_publisher_nonce'),
             'messages' => array(
-                'success' => __('Article publié avec succès !', 'frontend-publisher'),
-                'error' => __('Erreur lors de la publication de l\'article.', 'frontend-publisher'),
-                'required_fields' => __('Veuillez remplir tous les champs obligatoires.', 'frontend-publisher')
+                'success' => __('blogpost_successfully_published', 'tisseurs-frontend-publisher'),
+                'error' => __('error_while_publishing_blogpost', 'tisseurs-frontend-publisher'),
+                'required_fields' => __('please_fill_mandatory_fields', 'tisseurs-frontend-publisher')
             )
         ));
     }
@@ -50,34 +52,38 @@ class FrontendArticlePublisher {
     public function display_publisher_form($atts) {
         // Attributes of the shortcode
         $atts = shortcode_atts(array(
-            'allowed_roles' => 'editor,author,contributor', // Rôles autorisés
-            'post_status' => 'draft', // Statut par défaut des articles
+            'title' => __('default_title','tisseurs-frontend-publisher'),
+            'description' => __('default_description','tisseurs-frontend-publisher'), 
+            'allowed_roles' => 'editor,author,contributor',
+            'post_status' => 'draft', 
             'show_categories' => 'yes',
             'show_tags' => 'yes',
             'show_featured_image' => 'yes'
         ), $atts);
         
         if (!is_user_logged_in()) {
-            return '<div class="frontend-publisher-error">' . __('Vous devez être connecté pour publier un article.', 'frontend-publisher') . '</div>';
+            return '<div class="frontend-publisher-error">' . __('must_be_logged_in_to_publish', 'tisseurs-frontend-publisher') . '</div>';
         }
         
         if (!$this->user_can_publish($atts['allowed_roles'])) {
-            return '<div class="frontend-publisher-error">' . __('Vous n\'avez pas les droits nécessaires pour publier des articles.', 'frontend-publisher') . '</div>';
+            return '<div class="frontend-publisher-error">' . __('not_enough_rights_to_publish', 'tisseurs-frontend-publisher') . '</div>';
         }
         
         ob_start();
         ?>
         <div id="frontend-publisher-container">
+            <h2><?php echo esc_html($atts['title']); ?></h2>
+            <p><?php echo esc_html($atts['description']);?></p>
             <form id="frontend-publisher-form" class="frontend-publisher-form">
                 <?php wp_nonce_field('frontend_publisher_nonce', 'frontend_publisher_nonce'); ?>
                 
                 <div class="form-group">
-                    <label for="article_title"><?php _e('Titre de l\'article *', 'frontend-publisher'); ?></label>
+                    <label for="article_title"><?php _e('title_label', 'tisseurs-frontend-publisher'); ?></label>
                     <input type="text" id="article_title" name="article_title" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="article_content"><?php _e('Contenu de l\'article *', 'frontend-publisher'); ?></label>
+                    <label for="article_content"><?php _e('content_label', 'tisseurs-frontend-publisher'); ?></label>
                     <?php
                     // Get rich editor
                     wp_editor('', 'article_content', array(
@@ -94,13 +100,13 @@ class FrontendArticlePublisher {
                 </div>
                 
                 <div class="form-group">
-                    <label for="article_excerpt"><?php _e('Extrait (optionnel)', 'frontend-publisher'); ?></label>
+                    <label for="article_excerpt"><?php _e('excerpt_label', 'tisseurs-frontend-publisher'); ?></label>
                     <textarea id="article_excerpt" name="article_excerpt" rows="3"></textarea>
                 </div>
                 
                 <?php if ($atts['show_categories'] === 'yes'): ?>
                 <div class="form-group">
-                    <label for="article_categories"><?php _e('Catégories', 'frontend-publisher'); ?></label>
+                    <label for="article_categories"><?php _e('categories_label', 'tisseurs-frontend-publisher'); ?></label>
                     <?php
                     $categories = get_categories(array('hide_empty' => false));
                     if (!empty($categories)):
@@ -118,35 +124,35 @@ class FrontendArticlePublisher {
                 
                 <?php if ($atts['show_tags'] === 'yes'): ?>
                 <div class="form-group">
-                    <label for="article_tags"><?php _e('Mots-clés (séparés par des virgules)', 'frontend-publisher'); ?></label>
-                    <input type="text" id="article_tags" name="article_tags" placeholder="<?php _e('mot-clé1, mot-clé2, mot-clé3', 'frontend-publisher'); ?>">
+                    <label for="article_tags"><?php _e('tags_label', 'tisseurs-frontend-publisher'); ?></label>
+                    <input type="text" id="article_tags" name="article_tags" placeholder="<?php _e('tags_placeholder', 'tisseurs-frontend-publisher'); ?>">
                 </div>
                 <?php endif; ?>
                 
                 <?php if ($atts['show_featured_image'] === 'yes'): ?>
                 <div class="form-group">
-                    <label for="article_featured_image"><?php _e('Image mise en avant', 'frontend-publisher'); ?></label>
+                    <label for="article_featured_image"><?php _e('featured_image_label', 'tisseurs-frontend-publisher'); ?></label>
                     <input type="file" id="article_featured_image" name="article_featured_image" accept="image/*">
                 </div>
                 <?php endif; ?>
                 
                 <div class="form-group">
-                    <label for="article_status"><?php _e('Statut de publication', 'frontend-publisher'); ?></label>
+                    <label for="article_status"><?php _e('status_label', 'tisseurs-frontend-publisher'); ?></label>
                     <select id="article_status" name="article_status">
-                        <option value="draft" <?php selected($atts['post_status'], 'draft'); ?>><?php _e('Brouillon', 'frontend-publisher'); ?></option>
+                        <option value="draft" <?php selected($atts['post_status'], 'draft'); ?>><?php _e('status_value_draft', 'tisseurs-frontend-publisher'); ?></option>
                         <?php if (current_user_can('publish_posts')): ?>
-                            <option value="publish" <?php selected($atts['post_status'], 'publish'); ?>><?php _e('Publié', 'frontend-publisher'); ?></option>
+                            <option value="publish" <?php selected($atts['post_status'], 'publish'); ?>><?php _e('status_value_publish', 'tisseurs-frontend-publisher'); ?></option>
                         <?php endif; ?>
-                        <option value="pending" <?php selected($atts['post_status'], 'pending'); ?>><?php _e('En attente de révision', 'frontend-publisher'); ?></option>
+                        <option value="pending" <?php selected($atts['post_status'], 'pending'); ?>><?php _e('status_value_pending', 'tisseurs-frontend-publisher'); ?></option>
                     </select>
                 </div>
                 
                 <div class="form-actions">
                     <button type="submit" id="submit-article" class="frontend-publisher-submit">
-                        <?php _e('Publier l\'article', 'frontend-publisher'); ?>
+                        <?php _e('publish_submit', 'tisseurs-frontend-publisher'); ?>
                     </button>
                     <div id="frontend-publisher-loading" class="loading-spinner" style="display:none;">
-                        <?php _e('Publication en cours...', 'frontend-publisher'); ?>
+                        <?php _e('publishing_in_progress', 'tisseurs-frontend-publisher'); ?>
                     </div>
                 </div>
             </form>
@@ -180,11 +186,11 @@ class FrontendArticlePublisher {
         }
         
         if (!is_user_logged_in()) {
-            wp_send_json_error(array('message' => __('Vous devez être connecté.', 'frontend-publisher')));
+            wp_send_json_error(array('message' => __('must_be_logged_in_to_publish', 'tisseurs-frontend-publisher')));
         }
         
         if (!current_user_can('edit_posts')) {
-            wp_send_json_error(array('message' => __('Vous n\'avez pas les droits nécessaires.', 'frontend-publisher')));
+            wp_send_json_error(array('message' => __('not_enough_rights_to_publish', 'tisseurs-frontend-publisher')));
         }
         
         $title = sanitize_text_field($_POST['title']);
@@ -195,7 +201,7 @@ class FrontendArticlePublisher {
         $status = sanitize_text_field($_POST['status']);
         
         if (empty($title) || empty($content)) {
-            wp_send_json_error(array('message' => __('Le titre et le contenu sont obligatoires.', 'frontend-publisher')));
+            wp_send_json_error(array('message' => __('please_fill_mandatory_fields', 'tisseurs-frontend-publisher')));
         }
         
         $allowed_statuses = array('draft', 'pending');
@@ -220,7 +226,7 @@ class FrontendArticlePublisher {
         $post_id = wp_insert_post($post_data);
         
         if (is_wp_error($post_id)) {
-            wp_send_json_error(array('message' => __('Erreur lors de la création de l\'article.', 'frontend-publisher')));
+            wp_send_json_error(array('message' => __('error_while_publishing_blogpost', 'tisseurs-frontend-publisher')));
         }
         
         if (!empty($tags)) {
@@ -230,20 +236,20 @@ class FrontendArticlePublisher {
         if (!empty($_FILES['featured_image']['name'])) {
             $upload_result = $this->handle_featured_image_upload($_FILES['featured_image'], $post_id);
             if (!$upload_result) {
-                wp_send_json_success(array('message' => __('Article créé mais l\'image n\'a pas pu être uploadée.', 'frontend-publisher')));
+                wp_send_json_success(array('message' => __('blogpost_created_but_image_error', 'tisseurs-frontend-publisher')));
             }
         }
         
         $message = '';
         switch ($status) {
             case 'publish':
-                $message = __('Article publié avec succès !', 'frontend-publisher');
+                $message = __('blogpost_successfully_published', 'tisseurs-frontend-publisher');
                 break;
             case 'pending':
-                $message = __('Article soumis pour révision !', 'frontend-publisher');
+                $message = __('blogpost_waiting_review', 'tisseurs-frontend-publisher');
                 break;
             default:
-                $message = __('Article sauvegardé en brouillon !', 'frontend-publisher');
+                $message = __('blogpost_saved_as_draft', 'tisseurs-frontend-publisher');
         }
         
         wp_send_json_success(array('message' => $message, 'post_id' => $post_id));
@@ -287,18 +293,18 @@ class FrontendArticlePublisher {
     }
 }
 
-new FrontendArticlePublisher();
+new TisseursFrontendPublisher();
 
 
-register_activation_hook(__FILE__, 'frontend_publisher_activate');
-function frontend_publisher_activate() {
+register_activation_hook(__FILE__, 'tisseurs_frontend_publisher_activate');
+function tisseurs_frontend_publisher_activate() {
     if (version_compare(get_bloginfo('version'), '6.0', '<')) {
-        wp_die(__('Ce plugin nécessite WordPress 6.0 ou plus récent.', 'frontend-publisher'));
+        wp_die(__('plugin_requires_wordpress_version', 'tisseurs-frontend-publisher'));
     }
 }
 
-register_deactivation_hook(__FILE__, 'frontend_publisher_deactivate');
-function frontend_publisher_deactivate() {
+register_deactivation_hook(__FILE__, 'tisseurs_frontend_publisher_deactivate');
+function tisseurs_frontend_publisher_deactivate() {
     // Do nothing now
 }
 ?>

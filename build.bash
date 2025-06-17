@@ -1,5 +1,9 @@
 # Script bash to create the downloadable archive of this WordPress plugin
 readonly PLUGIN_NAME="tisseurs-frontend-publisher"
+cd src/languages
+msgfmt -o tisseurs-frontend-publisher-en_US.mo tisseurs-frontend-publisher-en_US.po
+msgfmt -o tisseurs-frontend-publisher-fr_FR.mo tisseurs-frontend-publisher-fr_FR.po
+cd ../..
 if [ ! -d dist ]; then
   mkdir dist
 fi

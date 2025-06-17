@@ -1,0 +1,131 @@
+# Copyright (C) 2025 Bertrand Madet
+# This file is distributed under the same license as the Tisseurs Frontend Publisher plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Tisseurs Frontend Publisher 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-06-17T23:03:19+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: tisseurs-frontend-publisher\n"
+
+#. Plugin Name of the plugin
+#: tisseurs-frontend-publisher.php
+msgid "Tisseurs Frontend Publisher"
+msgstr "Tisseurs Frontend Publisher"
+
+#. Description of the plugin
+#: tisseurs-frontend-publisher.php
+msgid "WordPress plugin enables blogpost posting from page with a short code. It is tested in Tisseurs de Chimères association"
+msgstr "WordPress plugin enables blogpost posting from page with a short code. It is tested in Tisseurs de Chimères association."
+
+#. Author of the plugin
+#: tisseurs-frontend-publisher.php
+msgid "Bertrand Madet"
+msgstr "Bertrand Madet"
+
+#: tisseurs-frontend-publisher.php:45
+#: tisseurs-frontend-publisher.php:246
+msgid "blogpost_successfully_published"
+msgstr "Blogpost successfully published!"
+
+#: tisseurs-frontend-publisher.php:46
+#: tisseurs-frontend-publisher.php:229
+msgid "error_while_publishing_blogpost"
+msgstr "Error while publishing blogpost!"
+
+#: tisseurs-frontend-publisher.php:47
+#: tisseurs-frontend-publisher.php:204
+msgid "please_fill_mandatory_fields"
+msgstr "Please fill mandatory fields."
+
+#: tisseurs-frontend-publisher.php:55
+msgid "default_title"
+msgstr "Add a blogpost?"
+
+#: tisseurs-frontend-publisher.php:56
+msgid "default_description"
+msgstr "To add a blogpost: fill the fields, click on 'Publish blogpost' and wait a few seconds."
+
+#: tisseurs-frontend-publisher.php:65
+#: tisseurs-frontend-publisher.php:189
+msgid "must_be_logged_in_to_publish"
+msgstr "You must be logged in to publish a blogpost."
+
+#: tisseurs-frontend-publisher.php:69
+#: tisseurs-frontend-publisher.php:193
+msgid "not_enough_rights_to_publish"
+msgstr "You do not have enough rights to publish a blogpost."
+
+#: tisseurs-frontend-publisher.php:81
+msgid "title_label"
+msgstr "Title"
+
+#: tisseurs-frontend-publisher.php:86
+msgid "content_label"
+msgstr "Content"
+
+#: tisseurs-frontend-publisher.php:103
+msgid "excerpt_label"
+msgstr "excerpt_label"
+
+#: tisseurs-frontend-publisher.php:109
+msgid "categories_label"
+msgstr "Categories"
+
+#: tisseurs-frontend-publisher.php:127
+msgid "tags_label"
+msgstr "Tags"
+
+#: tisseurs-frontend-publisher.php:128
+msgid "tags_placeholder"
+msgstr "tag1, tag2, tag3"
+
+#: tisseurs-frontend-publisher.php:134
+msgid "featured_image_label"
+msgstr "Featured image"
+
+#: tisseurs-frontend-publisher.php:140
+msgid "status_label"
+msgstr "Status"
+
+#: tisseurs-frontend-publisher.php:142
+msgid "status_value_draft"
+msgstr "Draft"
+
+#: tisseurs-frontend-publisher.php:144
+msgid "status_value_publish"
+msgstr "Published"
+
+#: tisseurs-frontend-publisher.php:146
+msgid "status_value_pending"
+msgstr "Waiting for review"
+
+#: tisseurs-frontend-publisher.php:152
+msgid "publish_label"
+msgstr "Publish blogpost"
+
+#: tisseurs-frontend-publisher.php:155
+msgid "publishing_in_progress"
+msgstr "Publishing in progress..."
+
+#: tisseurs-frontend-publisher.php:239
+msgid "blogpost_created_but_image_error"
+msgstr "Blogpost created but image can not be uploaded."
+
+#: tisseurs-frontend-publisher.php:249
+msgid "blogpost_waiting_review"
+msgstr "Blogpost waiting for review."
+
+#: tisseurs-frontend-publisher.php:252
+msgid "blogpost_saved_as_draft"
+msgstr "Blogpost saved as draft."
+
+#: tisseurs-frontend-publisher.php:302
+msgid "plugin_requires_wordpress_version"
+msgstr "This plugin_requires wordpress 6.0 or newer."
