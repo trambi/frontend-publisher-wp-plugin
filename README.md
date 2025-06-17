@@ -1,5 +1,4 @@
-This is blogpost-members-wp-plugin WordPress plugin. This plugin aims to allow to members to post blog post from a short code. 
-This plugin aims to help website administration in the association Tisseurs de Chimères 🕸️.
+This is frontend-publisher-wp-plugin WordPress plugin. This plugin aims to allow to members to post blog post from a short code in frontend of the website instead of accessing admin pages. This plugin aims to help website administration in the association Tisseurs de Chimères 🕸️.
 
 
 ## File structure
@@ -8,20 +7,13 @@ This repository is organized as follow :
 
  - `src` contains source of the plugin:
    - `tisseurs-event-scheduler.php` is the main file of the plugin,
- - `tests` contains tests of the plugin:
-   - `php` contains phpunit config file; 
  - `build.bash` is a build bash script to create an zip archive of the source files.
  - `composer.json` contains the configuration of `composer`;
  - `composer.lock` contains the versions of installed composer packages.
 
 ## To work on the project
 
-To work on the project, you will need [composer](https://getcomposer.org/) and the composer packages : 
-
-- phpunit/phpunit,
-- wp-phpunit/wp-phpunit,
-- yoast/phpunit-polyfills,
-- brain/monkey
+To work on the project, you will need [composer](https://getcomposer.org/)
 
 ### Install the package 🚚
 
