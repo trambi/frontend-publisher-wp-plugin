@@ -1,0 +1,29 @@
+{
+    "require": {
+        "roots/wordpress": "6.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "roots/wordpress-core-installer": true
+        },
+        "platform":{
+            "php": "8.2"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.4",
+        "wp-phpunit/wp-phpunit": "^6.7",
+        "yoast/phpunit-polyfills": "^3.0",
+        "brain/monkey": "2.*"
+    },
+    "scripts": {
+        "test": "phpunit -c tests/php/phpunit.xml --display-deprecations",
+        "build": "bash build.bash"
+    },
+    "autoload": {
+        "psr-4": {
+            "TisseursBlogpostShortcode\\":"./src/"
+        }
+    }
+    
+}
