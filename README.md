@@ -39,8 +39,4 @@ composer build
 
 ### Unit test the plugin 🧪
 
-In order to test with PHPUnit the plugin, you have to run the command `composer test`.
-
-```bash
-composer test
-```
+**Not yet**
