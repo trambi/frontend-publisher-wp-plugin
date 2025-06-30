@@ -24,11 +24,10 @@ The shortcode has attributes:
 
 - `title` the name of the section of the form;
 - `description` the text below to describe the form;
-- `allowed_roles` the list of comma separated roles allowed to see the form and post the blogpost - by default editor, author and contributor';
-- `post_status` the status of the blogpost after posting: draft, pending or published - by default draft;
+- `allowed_roles` the list of comma separated roles allowed to see the form and post the blogpost - by default 'editor', 'author' and 'contributor';
+- `post_status` the status of the blogpost after posting: pending or published - by default published;
 - `show_categories` the fact to display categories in form - by default to yes;
 - `show_tags` the fact to display tags in form - by default to yes;
-- `show_featured_image` the fact to use feature image in form - by default to yes.
 - `show_featured_image` the fact to use feature image in form - by default to yes.
 
 
@@ -38,15 +37,17 @@ The shortcode has attributes:
 
 This repository is organized as follow :
 
- - `src` contains source of the plugin:
+ - directory `src` contains source of the plugin:
    - `tisseurs-event-scheduler.php` is the main file of the plugin,
- - `build.bash` is a build bash script to create an zip archive of the source files.
+   - directory `assets` contains JavaScript file and style file for the plugin,
+   - directory `languages` contains files related to internationalization;
+ - `build.bash` is a build bash script to create an zip archive of the source files;
  - `composer.json` contains the configuration of `composer`;
  - `composer.lock` contains the versions of installed composer packages.
 
 ### To work on the project
 
-To work on the project, you will need [PHP](https://www.php.net) and [composer](https://getcomposer.org/).
+To work on the project, you will need [PHP](https://www.php.net), [composer](https://getcomposer.org/) and [gettext](https://www.gnu.org/software/gettext/)..
 
 ### Install the dependancies 🚚
 

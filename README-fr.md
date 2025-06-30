@@ -22,7 +22,7 @@ Le shortcode a les paramètres suivants:
 - `title` le nom de la section du formulaire ;
 - `description` le texte sur le nom de section du formulaire qui décrit le formulaire ;
 - `allowed_roles` la liste séparée par une virgule des rôles autorisés à voir et poster des billets de blog - par défaut éditeur, auteur et contributeur;
-- `post_status` l'état du billet de blog après l'envoi du billet de blog : `draft` pour brouillon, `pending` pour en attente ou `published` pour publié - par défaut draft ;
+- `post_status` l'état du billet de blog après l'envoi du billet de blog : `pending` pour en attente ou `published` pour publié - par défaut à `published` ;
 - `show_categories` le fait d'afficher les catégories dans le formulaire `yes` pour l'afficher ou `no` pour ne pas l'afficher - par défaut à `yes`;
 - `show_tags` le fait d'afficher les tags dans le formulaire `yes` pour l'afficher ou `no` pour ne pas l'afficher - par défaut à `yes`;
 - `show_featured_image`  le fait d'afficher l'image d'illustration du billet dans le formulaire `yes` pour l'afficher ou `no` pour ne pas l'afficher - par défaut à `yes`.
@@ -35,13 +35,15 @@ Ce dépôt est organisé comme il suit :
 
  - `src` contient les sources de l'extension :
    - `tisseurs-event-scheduler.php` est le fichier principal de l'extension,
- - `build.bash` est un script bash pour créer l'archive Zip permettant d'installer l'extension.
- - `composer.json` contient la configuration du paquet composer;
+   - le répertoire `assets` contient le fichier JavaScript et le fichier de style de l'extension,
+   - le répertoire `languages` contient les fichiers liés à l'internationalisation ;
+ - `build.bash` est un script bash pour créer l'archive Zip permettant d'installer l'extension ;
+ - `composer.json` contient la configuration du paquet composer ;
  - `composer.lock` contient les versions des paquets composer installés.
 
 ### Travailler sur le projet
 
-Pour travailler sur le projet, vous aurez besoin de [PHP](https://www.php.net) et de [composer](https://getcomposer.org/).
+Pour travailler sur le projet, vous aurez besoin de [PHP](https://www.php.net), de [composer](https://getcomposer.org/) et de [gettext](https://www.gnu.org/software/gettext/).
 
 #### Installer les dépendances 🚚
 

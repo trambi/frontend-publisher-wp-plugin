@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Tisseurs Frontend Publisher
  * Description: WordPress plugin enables blogpost posting from page with a short code. It is tested in Tisseurs de Chimères association
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Bertrand Madet
  * Licence: GPLv3 or later
  * Licence URI: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -55,7 +55,7 @@ class TisseursFrontendPublisher {
             'title' => __('default_title','tisseurs-frontend-publisher'),
             'description' => __('default_description','tisseurs-frontend-publisher'), 
             'allowed_roles' => 'editor,author,contributor',
-            'post_status' => 'draft', 
+            'post_status' => 'publish', 
             'show_categories' => 'yes',
             'show_tags' => 'yes',
             'show_featured_image' => 'yes'
@@ -76,7 +76,7 @@ class TisseursFrontendPublisher {
             <p><?php echo esc_html($atts['description']);?></p>
             <form id="frontend-publisher-form" class="frontend-publisher-form">
                 <?php wp_nonce_field('frontend_publisher_nonce', 'frontend_publisher_nonce'); ?>
-                
+                <input type="hidden" id="article_status" name="article_status" value="<?php echo esc_html($atts['post_status']);?>" />
                 <div class="form-group">
                     <label for="article_title"><?php _e('title_label', 'tisseurs-frontend-publisher'); ?></label>
                     <input type="text" id="article_title" name="article_title" required>
@@ -135,18 +135,7 @@ class TisseursFrontendPublisher {
                     <input type="file" id="article_featured_image" name="article_featured_image" accept="image/*">
                 </div>
                 <?php endif; ?>
-                
-                <div class="form-group">
-                    <label for="article_status"><?php _e('status_label', 'tisseurs-frontend-publisher'); ?></label>
-                    <select id="article_status" name="article_status">
-                        <option value="draft" <?php selected($atts['post_status'], 'draft'); ?>><?php _e('status_value_draft', 'tisseurs-frontend-publisher'); ?></option>
-                        <?php if (current_user_can('publish_posts')): ?>
-                            <option value="publish" <?php selected($atts['post_status'], 'publish'); ?>><?php _e('status_value_publish', 'tisseurs-frontend-publisher'); ?></option>
-                        <?php endif; ?>
-                        <option value="pending" <?php selected($atts['post_status'], 'pending'); ?>><?php _e('status_value_pending', 'tisseurs-frontend-publisher'); ?></option>
-                    </select>
-                </div>
-                
+         
                 <div class="form-actions">
                     <button type="submit" id="submit-article" class="frontend-publisher-submit">
                         <?php _e('publish_submit', 'tisseurs-frontend-publisher'); ?>
@@ -204,13 +193,12 @@ class TisseursFrontendPublisher {
             wp_send_json_error(array('message' => __('please_fill_mandatory_fields', 'tisseurs-frontend-publisher')));
         }
         
-        $allowed_statuses = array('draft', 'pending');
+        $allowed_statuses = array('pending');
         if (current_user_can('publish_posts')) {
             $allowed_statuses[] = 'publish';
         }
-        
         if (!in_array($status, $allowed_statuses)) {
-            $status = 'draft';
+            $status = 'pending';
         }
         
         $post_data = array(
